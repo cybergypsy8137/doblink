@@ -1,0 +1,159 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int data;
+	node *next;
+	node *prev;
+};
+node *head,*temp,*newnode,*temp2;
+void insertnode(int val)
+{
+	newnode=new node;
+	newnode->data=val;
+	if(head==NULL)
+	{
+		newnode->next=newnode->prev=NULL;
+		head=newnode;
+	}
+	else
+	{
+		int ch;
+		cout<<"Where do you want to insert ?(1.Beg 2.End 3.Required loaction): ";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:newnode->next=head;
+			newnode->prev=NULL;
+			head->prev=newnode;
+			head=newnode;
+			break;
+			case 2:temp=head;
+			while(temp->next!=NULL)
+			{
+				temp=temp->next;
+			}
+			temp->next=newnode;
+				newnode->prev=temp;
+				newnode->next=NULL;
+			break;
+			case 3:int pos,i=1;
+			temp=head;
+			cout<<"Enter the position to insert: ";
+			cin>>pos;
+			pos--;
+			while(i<pos)
+			{
+				temp=temp->next;
+			}
+			newnode->prev=temp;
+			newnode->next=temp->next;
+			(temp->next)->prev=newnode;
+			temp->next=newnode;
+			break;
+		}
+	}
+}
+void deletenode()
+{
+	if(head==NULL)
+	cout<<"The list is empty";
+	else if(head->next==NULL)
+	{
+	cout<<"The deleted element is "<<head->data;
+	head=NULL;
+    }
+    else
+    {
+		int ch;
+		cout<<"Where do you want to delete ?(1.Beg 2.End 3.Required location): ";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1: cout<<"The deleted element is "<<head->data;
+			head=head->next;
+			break;
+			case 2:temp=head;
+			while(temp->next!=NULL)
+			{
+				temp2=temp;
+				temp=temp->next;
+			}
+			temp2->next=NULL;
+		break;
+		case 3: int pos,i=1;
+		cout<<"Enter the position to delete: ";
+		cin>>pos;
+		temp=head;
+		while(i<pos)
+		{
+			i++;
+			temp2=temp;
+			temp=temp->next;
+		}
+		temp2->next=temp->next;
+		(temp->next)->prev=temp2;
+		break;
+	}
+}
+}
+void display(struct node *ptr)
+{
+	while(ptr!=0)
+	{
+		cout<<ptr->data<<" ";
+		ptr=ptr->next;
+	}
+}
+int search()
+{
+	int element,count=0;
+	cout<<"Enter the element to search: ";
+	cin>>element;
+	temp=head;
+	while(temp!=0)
+	{
+		count++;
+		if(temp->data==element)
+		{
+		return count;
+		break;
+	}
+	
+	temp=temp->next;
+}
+return -1;
+}
+int main()
+{
+	int ch=0,val;
+	head=NULL;
+	cout<<"1.Insert\n2.Delete\n3.Display\n4.Search\n5.Exit\n";
+	while(ch!=5)
+	{
+		cout<<"Enter your choice: ";
+		cin>>ch;
+		switch(ch)
+		{
+			case 1:cout<<"Enter the value to insert: ";
+			cin>>val;
+			insertnode(val);
+			break;
+			case 2:deletenode();
+			break;
+			case 3:display(head);
+			break;
+			case 4:int pos;
+			pos=search();
+			if(pos==-1)
+			cout<<"Not found";
+			else
+			cout<<"Found at position: "<<pos;
+			break;
+			case 5: ch=5;
+			break;
+			default:cout<<"Wrong choice";
+		}
+	}
+	return 0;
+}
